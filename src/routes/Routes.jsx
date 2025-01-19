@@ -18,6 +18,7 @@ import AllTrips from "../components/Shared/Navbar/AllTrips";
 import ProfileCard from "../components/Dashboard/ProfileCard";
 import AddStory from "../components/Dashboard/AddStory";
 import ManageStories from "../components/Dashboard/ManageStory";
+import ManageProfile from "../components/Dashboard/ManageProfile";
 
 export const router = createBrowserRouter([
   {
@@ -66,6 +67,8 @@ export const router = createBrowserRouter([
       { path: "/dashboard/profile", element: <ProfileCard /> },
       { path: "/dashboard/add-story", element: <AddStory /> },
       { path: "/dashboard/manage-story", element: <ManageStories /> },
+
+      { path: "/dashboard/users", element: <ManageProfile /> },
       { path: "/dashboard/my-listings", element: <MyListings /> },
       { path: "/dashboard/manage-bookings", element: <ManageBookings /> },
     ],

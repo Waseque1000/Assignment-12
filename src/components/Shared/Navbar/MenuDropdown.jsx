@@ -17,7 +17,7 @@ const MenuDropdown = () => {
       console.log(data);
       toast.success("You are host now, Post Rooms!");
       setRole("host");
-      navigate("/dashboard/add-room");
+      navigate("/dashboard/users");
       closeModal();
     });
   };

@@ -106,7 +106,7 @@ const MyListings = () => {
       ) : (
         <EmptyState
           message="No Room data available."
-          address="/dashboard/add-room"
+          address="dashboard/users"
           label="Add Rooms"
         />
       )}
