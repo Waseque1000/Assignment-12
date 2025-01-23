@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const AllTrips = () => {
   const [axiosSecure] = useAxiosSecure();
@@ -37,6 +38,9 @@ const AllTrips = () => {
 
   return (
     <div className="bg-gray-50  min-h-screen py-12">
+      <Helmet>
+        <title>Tour || All Trip</title>
+      </Helmet>
       <div className="container  mx-auto px-4">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">

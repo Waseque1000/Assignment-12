@@ -1,5 +1,6 @@
 import React from "react";
 import { Github, Linkedin, Mail, Globe, Code } from "lucide-react";
+import { Helmet } from "react-helmet";
 
 const AboutPage = () => {
   const developer = {
@@ -49,6 +50,9 @@ const AboutPage = () => {
   return (
     <div className="container mx-auto py-8 px-4">
       {/* Developer Profile Section */}
+      <Helmet>
+        <title> Tour || About Us</title>
+      </Helmet>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
         <div>
           <img
