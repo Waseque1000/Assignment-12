@@ -61,10 +61,9 @@ const PackageDetails = () => {
       toast.error("An error occurred while booking. Please try again.");
     }
   };
-  /******  586bdad9-7997-4767-8f73-08404e3df99f  *******/
 
   if (!tourDetails) {
-    return <div>Loading...</div>;
+    return <progress className="progress w-56"></progress>;
   }
 
   return (

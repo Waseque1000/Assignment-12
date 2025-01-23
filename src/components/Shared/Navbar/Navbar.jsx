@@ -1,6 +1,6 @@
 import React from "react";
 import Container from "../Container";
-// import Logo from "./Logo";
+import Logo from "./Logo";
 // import Search from "./Search";
 import MenuDropdown from "./MenuDropdown";
 import { NavLink } from "react-router-dom";
@@ -11,8 +11,8 @@ const Navbar = () => {
       <div className="py-4 border-b-[1px]">
         <Container>
           <div className="flex flex-row  items-center justify-between gap-3 md:gap-0">
-            {/* <Logo /> */}
-            Tour
+            <Logo />
+
             {/* <Search /> */}
             <nav className="hidden md:flex items-center space-x-8">
               <NavLink to="/" className="text-gray-700 hover:text-green-600">

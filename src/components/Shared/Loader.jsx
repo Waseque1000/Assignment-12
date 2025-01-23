@@ -1,19 +1,7 @@
-import { ScaleLoader } from 'react-spinners'
+import { ScaleLoader } from "react-spinners";
 
 const Loader = () => {
-  return (
-    <div
-      className='
-      h-[70vh]
-      flex 
-      flex-col 
-      justify-center 
-      items-center 
-    '
-    >
-      <ScaleLoader size={100} color='red' />
-    </div>
-  )
-}
+  return <progress className="progress w-56"></progress>;
+};
 
-export default Loader
+export default Loader;

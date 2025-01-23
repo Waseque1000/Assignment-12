@@ -46,7 +46,7 @@ const Hero = () => {
   }, [axiosSecure]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <progress className="progress w-56"></progress>;
   }
 
   // Limit the displayed items based on the state
@@ -57,6 +57,9 @@ const Hero = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* <Helmet>
+        <title>Go Tour || Home</title>
+      </Helmet> */}
       {/* Hero Section */}
       <div className="relative h-screen">
         {/* Hero content */}
@@ -115,10 +118,7 @@ const Hero = () => {
             <>
               <div className="grid grid-cols-1 text-black md:grid-cols-3 gap-8">
                 {visibleGuides.map((guide) => (
-                  <div
-                    key={guide.id}
-                    className="bg-white rounded-lg shadow-md overflow-hidden"
-                  >
+                  <div className="bg-white rounded-lg shadow-md overflow-hidden">
                     <img
                       src={guide.image}
                       alt={guide.name}

@@ -2,62 +2,62 @@ import React, { useContext, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../../providers/AuthProvider";
 
+import { toast } from "react-toastify";
+
 const AddStory = () => {
   const [title, setTitle] = useState(""); // State for the story title
   const [story, setStory] = useState(""); // State for the story content
   const [images, setImages] = useState([]); // State for uploaded images
   const [captions, setCaptions] = useState([]); // State for image captions
   const { user } = useContext(AuthContext);
-  console.log(user);
+  // console.log(user);
+
+  // Function to handle image selection
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files);
+    setImages(files);
+  };
+
+  // Function to handle caption change
+  const handleCaptionChange = (e, index) => {
+    const newCaptions = [...captions];
+    newCaptions[index] = e.target.value;
+    setCaptions(newCaptions);
+  };
 
   // Function to handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
+    e.preventDefault(); // Prevent default form submission
 
-    // Prepare form data to send to the backend
     const formData = new FormData();
-    formData.append("title", title); // Append story title to FormData
-    formData.append("story", story); // Append story content to FormData
-    formData.append("displayName", user.displayName); // Append user display name to FormData
-    formData.append("email", user.email); // Append user email to FormData
+    formData.append("title", title);
+    formData.append("story", story);
+    formData.append("author", user?.email || "Anonymous"); // Assuming user has a name property
 
-    // Append images and captions if any are selected
-    if (images.length > 0) {
-      images.forEach((image, index) => {
-        formData.append("images", image); // Append each image to FormData
-        formData.append("captions", captions[index]); // Append corresponding caption
-      });
-    }
+    // Append images and captions to formData
+    images.forEach((image, index) => {
+      formData.append("images", image);
+      formData.append(`captions[${index}]`, captions[index] || ""); // Append caption for each image
+    });
 
     try {
-      // Send a POST request to the backend with FormData
       const response = await axios.post(
-        "http://localhost:5000/stories", // Backend API endpoint for stories
+        "http://localhost:5000/stories",
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data", // Set the correct content type
+            "Content-Type": "multipart/form-data",
           },
         }
       );
-      // Success: Display a success message
-      alert("Story posted successfully!");
+      toast.success("Story posted successfully:");
+
+      form.reset();
+      // Optionally reset the form or handle success
     } catch (error) {
-      // Error: Display an error message
-      console.error("Error posting story:", error);
-      alert("Failed to post story. Please try again.");
+      toast.error("Error posting story:");
+      // Handle error (e.g., show a notification)
     }
-  };
-
-  // Handle image file changes and captions input
-  const handleImageChange = (e) => {
-    setImages([...e.target.files]); // Update images state
-  };
-
-  const handleCaptionChange = (e, index) => {
-    const newCaptions = [...captions];
-    newCaptions[index] = e.target.value; // Update specific caption in the captions array
-    setCaptions(newCaptions);
   };
 
   return (
@@ -86,7 +86,7 @@ const AddStory = () => {
         <div>
           <label className="block mb-2">Upload Images</label>
           <input
-            type="url"
+            type="file"
             multiple
             accept="image/*"
             name="image"

@@ -19,6 +19,7 @@ import ProfileCard from "../components/Dashboard/ProfileCard";
 import AddStory from "../components/Dashboard/AddStory";
 import ManageStories from "../components/Dashboard/ManageStory";
 import ManageProfile from "../components/Dashboard/ManageProfile";
+import Error from "../components/Shared/Error";
 
 export const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "*",
+        element: <Error></Error>,
       },
       {
         path: "/details/:id",

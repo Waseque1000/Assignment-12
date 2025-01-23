@@ -46,7 +46,7 @@ const MyBookings = ({ onPaymentClick }) => {
   };
 
   if (isLoading) {
-    return <div>Loading bookings...</div>;
+    return <progress className="progress w-56"></progress>;
   }
 
   return (
@@ -63,7 +63,7 @@ const MyBookings = ({ onPaymentClick }) => {
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody key={bookings}>
             {bookings.length > 0 ? (
               bookings.map((booking) => (
                 <tr key={booking.id}>

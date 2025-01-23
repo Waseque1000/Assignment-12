@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Heart, Clock, Users, Star, ChevronRight } from "lucide-react";
 
-const TourPackages = ({ tourPackages, key }) => {
+const TourPackages = ({ tourPackages }) => {
   return (
     <div className="grid grid-cols-1 text-black md:grid-cols-3 gap-8">
       {tourPackages.map((pkg) => (
