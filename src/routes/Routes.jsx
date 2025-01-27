@@ -20,6 +20,7 @@ import AddStory from "../components/Dashboard/AddStory";
 import ManageStories from "../components/Dashboard/ManageStory";
 import ManageProfile from "../components/Dashboard/ManageProfile";
 import Error from "../components/Shared/Error";
+import CommunityPage from "../components/Shared/Navbar/CommunityPage";
 
 export const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ export const router = createBrowserRouter([
       {
         path: "*",
         element: <Error></Error>,
+      },
+      {
+        path: "/community",
+        element: <CommunityPage />,
       },
       {
         path: "/details/:id",

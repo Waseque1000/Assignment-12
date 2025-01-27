@@ -5,7 +5,7 @@ import { AuthContext } from "../../providers/AuthProvider";
 import { toast } from "react-toastify";
 
 const MyBookings = ({ onPaymentClick }) => {
-  const { user } = useContext(AuthContext); // Get the logged-in user's info
+  const { user } = useContext(AuthContext);
   const queryClient = useQueryClient();
   const [selectedBooking, setSelectedBooking] = useState(null); // For modal
 

@@ -47,7 +47,7 @@ const PackageDetails = () => {
     };
 
     try {
-      const response = await axiosSecure.post("/bookings", bookingData); // Replace with your bookings API endpoint
+      const response = await axiosSecure.post("/bookings", bookingData); // Replace
       if (response.data.success) {
         // Show toast on success
         toast.success("Tour Booking successfully!");

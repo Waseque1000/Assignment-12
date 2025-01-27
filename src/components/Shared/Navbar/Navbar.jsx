@@ -18,7 +18,10 @@ const Navbar = () => {
               <NavLink to="/" className="text-gray-700 hover:text-green-600">
                 Home
               </NavLink>
-              <NavLink to="#" className="text-gray-700 hover:text-green-600">
+              <NavLink
+                to="/community"
+                className="text-gray-700 hover:text-green-600"
+              >
                 Community
               </NavLink>
               <NavLink
