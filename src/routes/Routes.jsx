@@ -47,8 +47,8 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/packages/${params.id}`).then((res) =>
-            res.json()
+          fetch(`https://server-000002.vercel.app/packages/${params.id}`).then(
+            (res) => res.json()
           ),
       },
       {
@@ -57,7 +57,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/trip",
-        element: <AllTrips />,
+        element: (
+          <PrivateRoute>
+            <AllTrips></AllTrips>
+          </PrivateRoute>
+        ),
       },
     ],
   },

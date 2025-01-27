@@ -42,7 +42,7 @@ const AddStory = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/stories",
+        "https://server-000002.vercel.app/stories",
         formData,
         {
           headers: {

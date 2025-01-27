@@ -14,7 +14,7 @@ const MyBookings = ({ onPaymentClick }) => {
     queryKey: ["bookings", user?.email],
     queryFn: async () => {
       const response = await axios.get(
-        `http://localhost:5000/bookings?email=${user?.email}`
+        `https://server-000002.vercel.app/bookings?email=${user?.email}`
       );
       return response.data;
     },
@@ -25,7 +25,7 @@ const MyBookings = ({ onPaymentClick }) => {
   const deleteBookingMutation = useMutation({
     mutationFn: async (_id) => {
       const response = await axios.delete(
-        `http://localhost:5000/bookings/${_id}`
+        `https://server-000002.vercel.app/bookings/${_id}`
       );
       return response.data;
     },

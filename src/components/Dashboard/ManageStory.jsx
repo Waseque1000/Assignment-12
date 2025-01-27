@@ -12,7 +12,9 @@ const ManageStories = () => {
   // Function to fetch stories from the server
   const fetchStories = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/stories");
+      const response = await axios.get(
+        "https://server-000002.vercel.app/stories"
+      );
       setStories(response.data);
     } catch (error) {
       console.error("Error fetching stories:", error);
@@ -27,7 +29,7 @@ const ManageStories = () => {
   // Function to delete a story
   const deleteStory = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/stories/${id}`);
+      await axios.delete(`https://server-000002.vercel.app/stories/${id}`);
       toast.success("Story deleted successfully");
       fetchStories(); // Refetch stories after deletion
     } catch (error) {
@@ -48,10 +50,13 @@ const ManageStories = () => {
     if (!editingStory) return;
 
     try {
-      await axios.patch(`http://localhost:5000/stories/${editingStory._id}`, {
-        title: updatedTitle,
-        story: updatedContent,
-      });
+      await axios.patch(
+        `https://server-000002.vercel.app/stories/${editingStory._id}`,
+        {
+          title: updatedTitle,
+          story: updatedContent,
+        }
+      );
       toast.success("Story updated successfully");
       fetchStories();
       setEditingStory(null);
