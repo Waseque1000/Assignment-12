@@ -9,7 +9,6 @@ import DashboardLayout from "../layouts/DashboardLayout";
 // import AddRoom from '../pages/Dashboard/AddRoom'
 // import { getRoom } from "../api/rooms";
 import MyBookings from "../pages/Dashboard/MyBookings";
-import MyListings from "../pages/Dashboard/MyListings";
 import ManageBookings from "../pages/Dashboard/ManageBooking";
 import PackageDetails from "../components/Categories/PackageDetails";
 import AboutPage from "../components/Categories/AboutPage";
@@ -21,6 +20,7 @@ import ManageStories from "../components/Dashboard/ManageStory";
 import ManageProfile from "../components/Dashboard/ManageProfile";
 import Error from "../components/Shared/Error";
 import CommunityPage from "../components/Shared/Navbar/CommunityPage";
+import AssignedTours from "../pages/Dashboard/AssignedTours";
 
 export const router = createBrowserRouter([
   {
@@ -47,8 +47,8 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`https://server-000002.vercel.app/packages/${params.id}`).then(
-            (res) => res.json()
+          fetch(`http://localhost:5000/packages/${params.id}`).then((res) =>
+            res.json()
           ),
       },
       {
@@ -83,8 +83,8 @@ export const router = createBrowserRouter([
       { path: "/dashboard/manage-story", element: <ManageStories /> },
 
       { path: "/dashboard/users", element: <ManageProfile /> },
-      { path: "/dashboard/my-listings", element: <MyListings /> },
-      { path: "/dashboard/manage-bookings", element: <ManageBookings /> },
+      { path: "/dashboard/assigned-tours", element: <AssignedTours /> },
+      { path: "/dashboard/manage-bookings", element: <AddStory /> },
     ],
   },
 ]);

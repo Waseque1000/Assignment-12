@@ -4,6 +4,7 @@ import TourPackages from "./TourPackages";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { Link } from "react-router-dom";
 import Button from "../Button/Button";
+import { Typewriter } from "react-simple-typewriter";
 
 const Hero = () => {
   const [activeTab, setActiveTab] = useState("packages");
@@ -71,6 +72,11 @@ const Hero = () => {
             <h1 className="text-6xl font-bold text-white mb-6">
               Discover the Beauty of
               <span className="text-green-400"> Bangladesh</span>
+            </h1>
+            <h1 className="text-6xl font-bold text-red-300 italic mb-6">
+              <Typewriter
+                words={["Travel", "Explore", "Learn", "Adventure", "Discover"]}
+              />
             </h1>
             <p className="text-xl text-gray-200 mb-8 max-w-2xl">
               Experience the rich culture, stunning landscapes, and warm

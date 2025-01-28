@@ -4,6 +4,7 @@ import Logo from "./Logo";
 // import Search from "./Search";
 import MenuDropdown from "./MenuDropdown";
 import { NavLink } from "react-router-dom";
+import Confetti from "../../../hooks/Confetti";
 
 const Navbar = () => {
   return (

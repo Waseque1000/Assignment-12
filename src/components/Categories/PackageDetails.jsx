@@ -4,6 +4,7 @@ import { Calendar, MapPin, Clock, User } from "lucide-react";
 import { AuthContext } from "../../providers/AuthProvider";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { toast } from "react-toastify";
+import Confetti from "../../hooks/Confetti";
 
 const PackageDetails = () => {
   const tourDetails = useLoaderData(); // Get the data from the loader
@@ -44,20 +45,18 @@ const PackageDetails = () => {
       userEmail: user?.email || "Not Available",
       tourDate,
       guideId: selectedGuide,
+      status: "Pending", // Default status for new bookings
     };
 
     try {
-      const response = await axiosSecure.post("/bookings", bookingData); // Replace
+      const response = await axiosSecure.post("/bookings", bookingData); // Replace with your API endpoint
       if (response.data.success) {
-        // Show toast on success
-        toast.success("Tour Booking successfully!");
+        setShowBookingModal(true); // Show confirmation modal
       } else {
-        // Show toast if the booking failed
-        toast.success("Tour Booking successfully!"); // Show toast on success
+        toast.success("Tour Booking successfully!");
       }
     } catch (error) {
       console.error("Booking failed:", error);
-      // Show toast if there was an error
       toast.error("An error occurred while booking. Please try again.");
     }
   };
@@ -170,7 +169,8 @@ const PackageDetails = () => {
                 </select>
               </div>
               <button type="submit" className="btn btn-primary w-full">
-                Book Now
+                Book Now!
+                <Confetti></Confetti>
               </button>
             </form>
           </div>

@@ -17,7 +17,7 @@ const HostMenu = () => {
         <span className="mx-4 font-medium">Manage User</span>
       </NavLink>
       <NavLink
-        to="my-listings"
+        to="assigned-tours"
         className={({ isActive }) =>
           `flex items-center px-4 py-2 mt-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
             isActive ? "bg-gray-300  text-gray-700" : "text-gray-600"
@@ -41,7 +41,7 @@ const HostMenu = () => {
         <span className="mx-4 font-medium"> Add Stories</span>
       </NavLink>
       <NavLink
-        to="manage-bookings"
+        to="manage-story"
         className={({ isActive }) =>
           `flex items-center px-4 py-2 mt-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
             isActive ? "bg-gray-300  text-gray-700" : "text-gray-600"

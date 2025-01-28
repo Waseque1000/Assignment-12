@@ -1,122 +1,171 @@
-import React, { useContext, useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
+import { Camera } from "lucide-react";
+import toast from "react-hot-toast";
 import { AuthContext } from "../../providers/AuthProvider";
-
-import { toast } from "react-toastify";
 
 const AddStory = () => {
   const [title, setTitle] = useState(""); // State for the story title
-  const [story, setStory] = useState(""); // State for the story content
+  const [content, setContent] = useState(""); // State for the story content
   const [images, setImages] = useState([]); // State for uploaded images
-  const [captions, setCaptions] = useState([]); // State for image captions
-  const { user } = useContext(AuthContext);
-  // console.log(user);
+  const [previewUrls, setPreviewUrls] = useState([]); // State for image previews
+  const { user } = useContext(AuthContext); // Get the user from AuthContext
+  const imgbbApiKey = import.meta.env.VITE_IMGBB_KEY; // Use the ImgBB API key from environment variable
 
-  // Function to handle image selection
-  const handleImageChange = (e) => {
+  // Handle image selection and upload to ImgBB
+  const handleImageChange = async (e) => {
     const files = Array.from(e.target.files);
-    setImages(files);
+    setImages((prev) => [...prev, ...files]);
+
+    // Create preview URLs for selected images
+    const newPreviewUrls = files.map((file) => URL.createObjectURL(file));
+    setPreviewUrls((prev) => [...prev, ...newPreviewUrls]);
+
+    // Upload images to ImgBB
+    const uploadedImages = await Promise.all(
+      files.map(async (file) => {
+        const formData = new FormData();
+        formData.append("image", file);
+
+        const response = await axios.post(
+          `https://api.imgbb.com/1/upload?key=${
+            import.meta.env.VITE_IMGBB_KEY
+          }`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        return response.data.data.url; // Get the image URL from the ImgBB response
+      })
+    );
+
+    setImages(uploadedImages); // Store the image URLs from ImgBB
   };
 
-  // Function to handle caption change
-  const handleCaptionChange = (e, index) => {
-    const newCaptions = [...captions];
-    newCaptions[index] = e.target.value;
-    setCaptions(newCaptions);
-  };
-
-  // Function to handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission
-
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("story", story);
-    formData.append("author", user?.email || "Anonymous"); // Assuming user has a name property
-
-    // Append images and captions to formData
-    images.forEach((image, index) => {
-      formData.append("images", image);
-      formData.append(`captions[${index}]`, captions[index] || ""); // Append caption for each image
+  // Remove an image
+  const removeImage = (index) => {
+    setImages((prev) => prev.filter((_, i) => i !== index));
+    setPreviewUrls((prev) => {
+      // Revoke the URL to prevent memory leaks
+      URL.revokeObjectURL(prev[index]);
+      return prev.filter((_, i) => i !== index);
     });
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "https://server-000002.vercel.app/stories",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      toast.success("Story posted successfully:");
+      const response = await axios.post("http://localhost:5000/stories", {
+        title,
+        story: content,
+        author: user?.email || "Anonymous",
+        images, // Array of ImgBB URLs
+      });
 
-      form.reset();
-      // Optionally reset the form or handle success
+      toast.success("Story posted successfully");
+      setTitle("");
+      setContent("");
+      setImages([]);
+      setPreviewUrls([]);
     } catch (error) {
-      toast.error("Error posting story:");
-      // Handle error (e.g., show a notification)
+      toast.error("Error posting story");
+      console.error(error);
     }
   };
 
   return (
-    <div className="bg-white rounded-lg shadow p-6">
-      <h2 className="text-2xl font-bold mb-6">Share Your Travel Story</h2>
-      <form className="space-y-6" onSubmit={handleSubmit}>
+    <div className="max-w-2xl mx-auto p-6">
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Story Title */}
         <div>
-          <label className="block mb-2">Story Title</label>
+          <label
+            htmlFor="title"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Story Title
+          </label>
           <input
             type="text"
-            placeholder="Enter your story title"
-            className="input input-bordered w-full"
+            id="title"
             value={title}
-            onChange={(e) => setTitle(e.target.value)} // Update title state
+            onChange={(e) => setTitle(e.target.value)}
+            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-blue-500"
+            required
           />
         </div>
+
+        {/* Story Content */}
         <div>
-          <label className="block mb-2">Your Story</label>
+          <label
+            htmlFor="content"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Story Content
+          </label>
           <textarea
-            placeholder="Share your experience..."
-            className="textarea textarea-bordered w-full h-32"
-            value={story}
-            onChange={(e) => setStory(e.target.value)} // Update story state
-          ></textarea>
-        </div>
-        <div>
-          <label className="block mb-2">Upload Images</label>
-          <input
-            type="file"
-            multiple
-            accept="image/*"
-            name="image"
-            className="file-input file-input-bordered w-full"
-            onChange={handleImageChange} // Handle image selection
+            id="content"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            rows={6}
+            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-blue-500"
+            required
           />
         </div>
-        {images.length > 0 && (
-          <div className="space-y-2 mt-4">
-            <label className="block mb-2">Image Captions</label>
-            {images.map((image, index) => (
-              <div key={index} className="flex items-center space-x-4">
+
+        {/* Upload Images */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Upload Images
+          </label>
+          <div className="mt-2">
+            <label className="cursor-pointer inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+              <Camera className="h-5 w-5 mr-2" />
+              Add Images
+              <input
+                type="file"
+                multiple
+                accept="image/*"
+                onChange={handleImageChange}
+                className="hidden"
+              />
+            </label>
+          </div>
+        </div>
+
+        {/* Preview selected images */}
+        {previewUrls.length > 0 && (
+          <div className="grid grid-cols-3 gap-4">
+            {previewUrls.map((url, index) => (
+              <div key={index} className="relative">
                 <img
-                  src={URL.createObjectURL(image)} // Display the selected image
-                  alt="preview"
-                  className="w-16 h-16 object-cover rounded"
+                  src={url}
+                  alt={`Preview ${index + 1}`}
+                  className="h-24 w-full object-cover rounded-lg"
                 />
-                <input
-                  type="text"
-                  placeholder={`Caption for image ${index + 1}`}
-                  className="input input-bordered w-full"
-                  value={captions[index] || ""}
-                  onChange={(e) => handleCaptionChange(e, index)} // Handle caption input
-                />
+                <button
+                  type="button"
+                  onClick={() => removeImage(index)}
+                  className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm hover:bg-red-600"
+                >
+                  ×
+                </button>
               </div>
             ))}
           </div>
         )}
-        <button type="submit" className="btn btn-primary">
-          Post Story
+
+        {/* Submit button */}
+        <button
+          type="submit"
+          className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+        >
+          Submit Story
         </button>
       </form>
     </div>

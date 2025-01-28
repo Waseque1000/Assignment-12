@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
-// import { getHostBookings } from '../../api/bookings'
+import { getHostBookings } from "../../api/bookings";
 import TableRow from "../../components/Dashboard/TableRow";
 import EmptyState from "../../components/Shared/EmptyState";
 

@@ -12,6 +12,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Import the styles
 // import { Helmet } from "react-helmet";
+// import { Typewriter } from "react-simple-typewriter";
 
 // Create a client
 const queryClient = new QueryClient();
@@ -22,6 +23,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Toaster />
       <ToastContainer />
       {/* <Helmet> */}
+      {/* <Typewriter /> */}
       <RouterProvider router={router} />
       {/* </Helmet> */}
     </QueryClientProvider>
