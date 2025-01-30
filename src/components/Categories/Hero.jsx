@@ -5,6 +5,7 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { Link } from "react-router-dom";
 import Button from "../Button/Button";
 import { Typewriter } from "react-simple-typewriter";
+import MainHero from "./MainHero";
 
 const Hero = () => {
   const [activeTab, setActiveTab] = useState("packages");
@@ -61,31 +62,7 @@ const Hero = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* <Helmet>
-        <title>Go Tour || Home</title>
-      </Helmet> */}
-      {/* Hero Section */}
-      <div className="relative h-screen">
-        {/* Hero content */}
-        <div className="absolute inset-0 bg-black bg-opacity-50">
-          <div className="max-w-7xl mx-auto px-4 h-full flex flex-col justify-center">
-            <h1 className="text-6xl font-bold text-white mb-6">
-              Discover the Beauty of
-              <span className="text-green-400"> Bangladesh</span>
-            </h1>
-            <h1 className="text-6xl font-bold text-red-300 italic mb-6">
-              <Typewriter
-                words={["Travel", "Explore", "Learn", "Adventure", "Discover"]}
-              />
-            </h1>
-            <p className="text-xl text-gray-200 mb-8 max-w-2xl">
-              Experience the rich culture, stunning landscapes, and warm
-              hospitality of Bangladesh through our curated travel experiences.
-            </p>
-          </div>
-        </div>
-      </div>
-
+      <MainHero />
       {/* Packages and Guides Section */}
       <div className="py-16">
         <div className="max-w-7xl mx-auto px-4">
