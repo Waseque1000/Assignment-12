@@ -74,7 +74,7 @@ const ManageProfile = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axiosSecure
-          .delete(`http://localhost:5000/users/${user._id}`) // Use default axios here
+          .delete(`https://server-000002.vercel.app/users/${user._id}`) // Use default axios here
           .then((res) => {
             if (res.data.deletedCount > 0) {
               refetch();

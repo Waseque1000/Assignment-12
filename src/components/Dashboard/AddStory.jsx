@@ -61,12 +61,15 @@ const AddStory = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:5000/stories", {
-        title,
-        story: content,
-        author: user?.email || "Anonymous",
-        images, // Array of ImgBB URLs
-      });
+      const response = await axios.post(
+        "https://server-000002.vercel.app/stories",
+        {
+          title,
+          story: content,
+          author: user?.email || "Anonymous",
+          images, // Array of ImgBB URLs
+        }
+      );
 
       toast.success("Story posted successfully");
       setTitle("");

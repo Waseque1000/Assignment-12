@@ -21,7 +21,9 @@ const AssignedTours = ({ user, onAccept, onReject }) => {
   } = useQuery({
     queryKey: ["bookings"],
     queryFn: async () => {
-      const response = await axios.get(`http://localhost:5000/all-bookings`);
+      const response = await axios.get(
+        `https://server-000002.vercel.app/all-bookings`
+      );
       return response.data;
     },
   });
