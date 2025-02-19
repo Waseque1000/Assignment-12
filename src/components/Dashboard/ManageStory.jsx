@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-
 import { toast } from "react-toastify";
 
 const ManageStories = () => {
@@ -9,7 +8,6 @@ const ManageStories = () => {
   const [updatedTitle, setUpdatedTitle] = useState("");
   const [updatedContent, setUpdatedContent] = useState("");
 
-  // Function to fetch stories from the server
   const fetchStories = async () => {
     try {
       const response = await axios.get(
@@ -21,31 +19,27 @@ const ManageStories = () => {
     }
   };
 
-  // useEffect to fetch stories on component mount
   useEffect(() => {
     fetchStories();
   }, []);
 
-  // Function to delete a story
   const deleteStory = async (id) => {
     try {
       await axios.delete(`https://server-000002.vercel.app/stories/${id}`);
       toast.success("Story deleted successfully");
-      fetchStories(); // Refetch stories after deletion
+      fetchStories();
     } catch (error) {
       console.error("Error deleting story:", error);
       toast.error("Failed to delete story");
     }
   };
 
-  // Function to start editing a story
   const startEditing = (story) => {
     setEditingStory(story);
     setUpdatedTitle(story.title);
     setUpdatedContent(story.story);
   };
 
-  // Function to handle the PATCH request
   const updateStory = async () => {
     if (!editingStory) return;
 
@@ -67,12 +61,27 @@ const ManageStories = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
-      {stories.map((story) => (
-        <div key={story._id} className="bg-white rounded-lg shadow p-6">
-          <div className="flex justify-between mb-4">
-            <h3 className="text-xl font-bold">{story.title}</h3>
-            <div className="flex gap-2">
+    <div className="container mx-auto px-4 py-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
+        {stories.map((story) => (
+          <div key={story._id} className="bg-white rounded-lg shadow-lg p-6">
+            <h3 className="text-xl font-bold mb-2">{story.title}</h3>
+            <p className="text-gray-700 mb-4">{story.story}</p>
+            <div className="grid grid-cols-2 gap-2">
+              {Array.isArray(story.images) && story.images.length > 0 ? (
+                story.images.map((img, idx) => (
+                  <img
+                    key={idx}
+                    src={img}
+                    alt={`Story ${idx + 1}`}
+                    className="rounded-lg w-full h-32 object-cover"
+                  />
+                ))
+              ) : (
+                <p className="text-sm text-gray-500">No images available.</p>
+              )}
+            </div>
+            <div className="mt-4 flex justify-between">
               <button
                 className="btn btn-sm btn-outline"
                 onClick={() => startEditing(story)}
@@ -87,28 +96,12 @@ const ManageStories = () => {
               </button>
             </div>
           </div>
-          <p className="mb-4">{story.story}</p>
-          <div className="grid grid-cols-2 gap-4">
-            {Array.isArray(story.images) && story.images.length > 0 ? (
-              story.images.map((img, idx) => (
-                <img
-                  key={idx}
-                  src={img}
-                  alt={`Story ${idx + 1}`}
-                  className="rounded-lg w-full h-40 object-cover"
-                />
-              ))
-            ) : (
-              <p>No images available for this story.</p>
-            )}
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
 
-      {/* Edit Story Modal or Form */}
       {editingStory && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
             <h2 className="text-xl font-bold mb-4">Edit Story</h2>
             <input
               type="text"
@@ -129,10 +122,10 @@ const ManageStories = () => {
               </button>
               <button
                 className="btn btn-outline"
-                onClick={() => setEditingStory(null)} // Close the modal
+                onClick={() => setEditingStory(null)}
               >
                 Cancel
-              </button>{" "}
+              </button>
             </div>
           </div>
         </div>

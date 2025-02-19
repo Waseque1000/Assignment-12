@@ -6,13 +6,9 @@
 
 // const AssignedTours = ({ user, onAccept, onReject }) => {
 //   const [showRejectModal, setShowRejectModal] = useState(false);
-//   const [showAcceptModal, setShowAcceptModal] = useState(false);
 //   const [selectedTourId, setSelectedTourId] = useState(null);
-//   const [tourToAccept, setTourToAccept] = useState(null);
+//   const queryClient = useQueryClient();
 
-//   const queryClient = useQueryClient(); // For optimistic update
-
-//   // Fetch bookings using react-query
 //   const {
 //     data: bookings = [],
 //     isLoading,
@@ -28,7 +24,6 @@
 //     },
 //   });
 
-//   // Function to update the tour status on the backend
 //   const updateStatus = async (id) => {
 //     const response = await fetch(
 //       `${import.meta.env.VITE_API_URL}/bookings/${id}/accept`,
@@ -36,122 +31,77 @@
 //         method: "PATCH",
 //       }
 //     );
-//     const data = await response.json();
-//     return data;
+//     return response.json();
 //   };
 
-//   // Handle accepting a tour
 //   const handleAccept = async (id) => {
-//     // Optimistically update the bookings data
-//     queryClient.setQueryData(["bookings"], (oldData) => {
-//       return oldData.map((tour) =>
+//     queryClient.setQueryData(["bookings"], (oldData) =>
+//       oldData.map((tour) =>
 //         tour._id === id ? { ...tour, status: "Confirm" } : tour
-//       );
-//     });
+//       )
+//     );
 
 //     try {
 //       await updateStatus(id);
-//       console.log("Tour status updated to Confirm");
-//       toast.success("Tour bookings Successful");
-//       // <Confetti></Confetti>;
+//       toast.success("Tour booking successful");
 //     } catch (error) {
-//       console.error("Error updating status:", error);
-//       // Revert optimistic update if the request fails
-//       queryClient.setQueryData(["bookings"], (oldData) => {
-//         return oldData.map((tour) =>
+//       queryClient.setQueryData(["bookings"], (oldData) =>
+//         oldData.map((tour) =>
 //           tour._id === id ? { ...tour, status: "Pending" } : tour
-//         );
-//       });
+//         )
+//       );
 //     }
 //   };
 
-//   // Handle rejecting a tour
-//   const handleRejectConfirm = () => {
-//     if (!onReject || !selectedTourId) return;
-//     onReject(selectedTourId);
-//     setShowRejectModal(false);
-//     setSelectedTourId(null);
-//   };
-
-//   const openRejectModal = (tourId) => {
-//     setSelectedTourId(tourId);
-//     setShowRejectModal(true);
-//   };
-
-//   // Loading state
 //   if (isLoading) {
-//     return (
-//       <div className="p-6 text-center">
-//         <p className="text-gray-500">Loading tours...</p>
-//       </div>
-//     );
+//     return <p className="text-center text-gray-500">Loading tours...</p>;
 //   }
 
-//   // Error state
 //   if (isError) {
 //     return (
-//       <div className="p-6 text-center text-red-500">
-//         <p>
-//           {error?.message || "Failed to fetch tours. Please try again later."}
-//         </p>
-//       </div>
-//     );
-//   }
-
-//   // If no bookings available
-//   if (!bookings.length) {
-//     return (
-//       <div className="p-6">
-//         <h2 className="text-2xl font-bold mb-6">All Assigned Tours</h2>
-//         <div className="text-center py-8 bg-gray-50 rounded-lg border border-gray-200">
-//           <p className="text-gray-500">No tours assigned yet.</p>
-//         </div>
-//       </div>
+//       <p className="text-center text-red-500">
+//         {error?.message || "Failed to fetch tours."}
+//       </p>
 //     );
 //   }
 
 //   return (
-//     <div className="p-6">
-//       <h2 className="text-2xl font-bold mb-6">All Assigned Tours</h2>
-//       <div className="overflow-x-auto rounded-lg border border-gray-200">
-//         <table className="min-w-full divide-y divide-gray-200">
-//           <thead className="bg-gray-50">
+//     <div className="p-4 md:p-6">
+//       <h2 className="text-2xl font-bold mb-6 text-center md:text-left">
+//         All Assigned Tours
+//       </h2>
+//       <div className="overflow-x-auto">
+//         <table className="min-w-full bg-white rounded-lg shadow-lg">
+//           <thead className="bg-gray-100">
 //             <tr>
-//               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-//                 Package Name
-//               </th>
-//               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-//                 Tourist Name
-//               </th>
-//               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-//                 Tour Date
-//               </th>
-//               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-//                 Status
-//               </th>
-//               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-//                 Actions
-//               </th>
+//               <th className="px-4 py-2 text-xs md:text-sm">Package Name</th>
+//               <th className="px-4 py-2 text-xs md:text-sm">Tourist Name</th>
+//               <th className="px-4 py-2 text-xs md:text-sm">Tour Date</th>
+//               <th className="px-4 py-2 text-xs md:text-sm">Status</th>
+//               <th className="px-4 py-2 text-xs md:text-sm">Actions</th>
 //             </tr>
 //           </thead>
-//           <tbody className="bg-white divide-y divide-gray-200">
+//           <tbody>
 //             {bookings.map((tour) => (
-//               <tr key={tour._id} className="hover:bg-gray-50">
-//                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+//               <tr
+//                 key={tour._id}
+//                 className="border-b hover:bg-gray-50 text-center"
+//               >
+//                 <td className="px-4 py-3 text-xs md:text-sm">
 //                   {tour.packageName}
 //                 </td>
-//                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+//                 <td className="px-4 py-3 text-xs md:text-sm">
 //                   {tour.userName}
 //                 </td>
-//                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+//                 <td className="px-4 py-3 text-xs md:text-sm">
 //                   {new Date(tour.tourDate).toLocaleDateString()}
 //                 </td>
-//                 <td className="px-6 py-4 whitespace-nowrap">
+//                 <td className="px-4 py-3">
 //                   <span
-//                     className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+//                     className={`px-2 py-1 text-xs rounded-full ${
 //                       tour.status === "Pending"
 //                         ? "bg-yellow-100 text-yellow-800"
-//                         : tour.status === "Accepted"
+//                         : tour.status === "Confirm"
 //                         ? "bg-green-100 text-green-800"
 //                         : "bg-red-100 text-red-800"
 //                     }`}
@@ -159,28 +109,29 @@
 //                     {tour.status}
 //                   </span>
 //                 </td>
-//                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-//                   <div className="flex gap-2">
+//                 <td className="px-4 py-3 flex justify-center gap-2 text-xs md:text-sm">
+//                   <button
+//                     onClick={() => handleAccept(tour._id)}
+//                     disabled={tour.status !== "Pending"}
+//                     className={`px-3 py-1 rounded-md ${
+//                       tour.status === "Pending"
+//                         ? "bg-green-600 text-white hover:bg-green-700"
+//                         : "bg-gray-300 text-gray-500 cursor-not-allowed"
+//                     }`}
+//                   >
+//                     Accept
+//                   </button>
+//                   {tour.status === "Pending" && (
 //                     <button
-//                       onClick={() => handleAccept(tour._id)}
-//                       disabled={tour.status !== "Pending"}
-//                       className={`px-3 py-1 rounded-md text-sm transition-colors ${
-//                         tour.status === "Pending"
-//                           ? "bg-green-600 text-white hover:bg-green-700"
-//                           : "bg-gray-300 text-gray-500 cursor-not-allowed"
-//                       }`}
+//                       onClick={() => {
+//                         setSelectedTourId(tour._id);
+//                         setShowRejectModal(true);
+//                       }}
+//                       className="px-3 py-1 bg-red-600 text-white rounded-md hover:bg-red-700"
 //                     >
-//                       Accept
+//                       Reject
 //                     </button>
-//                     {tour.status === "Pending" && (
-//                       <button
-//                         onClick={() => openRejectModal(tour._id)}
-//                         className="px-3 py-1 rounded-md text-sm bg-red-600 text-white hover:bg-red-700 transition-colors"
-//                       >
-//                         Reject
-//                       </button>
-//                     )}
-//                   </div>
+//                   )}
 //                 </td>
 //               </tr>
 //             ))}
@@ -188,45 +139,27 @@
 //         </table>
 //       </div>
 
-//       {/* Confirmation Modal for Reject */}
+//       {/* Reject Confirmation Modal */}
 //       {showRejectModal && (
-//         <div className="modal modal-open">
-//           <div className="modal-box">
-//             <h3 className="font-bold text-lg">Confirm Rejection</h3>
-//             <p className="py-4">
-//               Are you sure you want to reject this tour? This action cannot be
-//               undone.
-//             </p>
-//             <div className="modal-action">
+//         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+//           <div className="bg-white p-6 rounded-lg shadow-lg">
+//             <h3 className="text-lg font-bold">Confirm Rejection</h3>
+//             <p className="py-4">Are you sure you want to reject this tour?</p>
+//             <div className="flex justify-end gap-4">
 //               <button
-//                 className="btn btn-ghost"
+//                 className="px-4 py-2 bg-gray-300 rounded-md"
 //                 onClick={() => setShowRejectModal(false)}
 //               >
 //                 Cancel
 //               </button>
-//               <button className="btn btn-error" onClick={handleRejectConfirm}>
-//                 Reject Tour
-//               </button>
-//             </div>
-//           </div>
-//         </div>
-//       )}
-
-//       {/* Confirmation Modal for Accept */}
-//       {showAcceptModal && (
-//         <div className="modal modal-open">
-//           <div className="modal-box">
-//             <h3 className="font-bold text-lg">Confirm Acceptance</h3>
-//             <p className="py-4">Are you sure you want to accept this tour?</p>
-//             <div className="modal-action">
 //               <button
-//                 className="btn btn-ghost"
-//                 onClick={() => setShowAcceptModal(false)}
+//                 className="px-4 py-2 bg-red-600 text-white rounded-md"
+//                 onClick={() => {
+//                   if (onReject) onReject(selectedTourId);
+//                   setShowRejectModal(false);
+//                 }}
 //               >
-//                 Cancel
-//               </button>
-//               <button className="btn btn-success" onClick={confirmAccept}>
-//                 Accept Tour
+//                 Reject Tour
 //               </button>
 //             </div>
 //           </div>
@@ -242,7 +175,6 @@ import React, { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import toast from "react-hot-toast";
-import Confetti from "../../hooks/Confetti";
 
 const AssignedTours = ({ user, onAccept, onReject }) => {
   const [showRejectModal, setShowRejectModal] = useState(false);
@@ -310,15 +242,17 @@ const AssignedTours = ({ user, onAccept, onReject }) => {
       <h2 className="text-2xl font-bold mb-6 text-center md:text-left">
         All Assigned Tours
       </h2>
-      <div className="overflow-x-auto">
+
+      {/* Table for larger screens */}
+      <div className="hidden md:block overflow-x-auto">
         <table className="min-w-full bg-white rounded-lg shadow-lg">
           <thead className="bg-gray-100">
             <tr>
-              <th className="px-4 py-2 text-xs md:text-sm">Package Name</th>
-              <th className="px-4 py-2 text-xs md:text-sm">Tourist Name</th>
-              <th className="px-4 py-2 text-xs md:text-sm">Tour Date</th>
-              <th className="px-4 py-2 text-xs md:text-sm">Status</th>
-              <th className="px-4 py-2 text-xs md:text-sm">Actions</th>
+              <th className="px-4 py-2 text-sm">Package Name</th>
+              <th className="px-4 py-2 text-sm">Tourist Name</th>
+              <th className="px-4 py-2 text-sm">Tour Date</th>
+              <th className="px-4 py-2 text-sm">Status</th>
+              <th className="px-4 py-2 text-sm">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -327,13 +261,9 @@ const AssignedTours = ({ user, onAccept, onReject }) => {
                 key={tour._id}
                 className="border-b hover:bg-gray-50 text-center"
               >
-                <td className="px-4 py-3 text-xs md:text-sm">
-                  {tour.packageName}
-                </td>
-                <td className="px-4 py-3 text-xs md:text-sm">
-                  {tour.userName}
-                </td>
-                <td className="px-4 py-3 text-xs md:text-sm">
+                <td className="px-4 py-3 text-sm">{tour.packageName}</td>
+                <td className="px-4 py-3 text-sm">{tour.userName}</td>
+                <td className="px-4 py-3 text-sm">
                   {new Date(tour.tourDate).toLocaleDateString()}
                 </td>
                 <td className="px-4 py-3">
@@ -349,7 +279,7 @@ const AssignedTours = ({ user, onAccept, onReject }) => {
                     {tour.status}
                   </span>
                 </td>
-                <td className="px-4 py-3 flex justify-center gap-2 text-xs md:text-sm">
+                <td className="px-4 py-3 flex justify-center gap-2 text-sm">
                   <button
                     onClick={() => handleAccept(tour._id)}
                     disabled={tour.status !== "Pending"}
@@ -377,6 +307,67 @@ const AssignedTours = ({ user, onAccept, onReject }) => {
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* Cards for smaller screens */}
+      <div className="md:hidden space-y-4">
+        {bookings.map((tour) => (
+          <div
+            key={tour._id}
+            className="bg-white rounded-lg shadow-lg p-4 hover:shadow-xl transition-shadow"
+          >
+            <div className="space-y-2">
+              <p className="text-sm font-medium">
+                <span className="font-bold">Package:</span> {tour.packageName}
+              </p>
+              <p className="text-sm font-medium">
+                <span className="font-bold">Tourist:</span> {tour.userName}
+              </p>
+              <p className="text-sm font-medium">
+                <span className="font-bold">Date:</span>{" "}
+                {new Date(tour.tourDate).toLocaleDateString()}
+              </p>
+              <p className="text-sm font-medium">
+                <span className="font-bold">Status:</span>{" "}
+                <span
+                  className={`px-2 py-1 text-xs rounded-full ${
+                    tour.status === "Pending"
+                      ? "bg-yellow-100 text-yellow-800"
+                      : tour.status === "Confirm"
+                      ? "bg-green-100 text-green-800"
+                      : "bg-red-100 text-red-800"
+                  }`}
+                >
+                  {tour.status}
+                </span>
+              </p>
+            </div>
+            <div className="mt-4 flex justify-between gap-2">
+              <button
+                onClick={() => handleAccept(tour._id)}
+                disabled={tour.status !== "Pending"}
+                className={`px-3 py-1 rounded-md flex-1 ${
+                  tour.status === "Pending"
+                    ? "bg-green-600 text-white hover:bg-green-700"
+                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                }`}
+              >
+                Accept
+              </button>
+              {tour.status === "Pending" && (
+                <button
+                  onClick={() => {
+                    setSelectedTourId(tour._id);
+                    setShowRejectModal(true);
+                  }}
+                  className="px-3 py-1 bg-red-600 text-white rounded-md flex-1 hover:bg-red-700"
+                >
+                  Reject
+                </button>
+              )}
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Reject Confirmation Modal */}
