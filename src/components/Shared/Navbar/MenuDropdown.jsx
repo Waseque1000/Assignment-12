@@ -15,7 +15,7 @@ const MenuDropdown = () => {
   const modalHandler = (email) => {
     becomeHost(email).then((data) => {
       console.log(data);
-      toast.success("You are host now,  ");
+      toast.success("You will be host  , wait ");
       setRole("host");
       navigate("/dashboard/users");
       closeModal();
