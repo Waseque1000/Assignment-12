@@ -33,7 +33,7 @@ export default function TourManagementDashboard() {
   // fetch data from backend
 
   useEffect(() => {
-    fetch("http://localhost:4000/all-bookings")
+    fetch(`${import.meta.env.VITE_API_URL}/all-bookings`)
       .then((res) => res.json())
       .then((data) => {
         setAllData(data);
@@ -42,7 +42,7 @@ export default function TourManagementDashboard() {
   }, []);
   const [users, setUsers] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:4000/users")
+    fetch(`${import.meta.env.VITE_API_URL}/users`)
       .then((res) => res.json())
       .then((data) => {
         setUsers(data);
