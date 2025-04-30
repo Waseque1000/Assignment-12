@@ -108,7 +108,7 @@ const AllTrips = () => {
       <div className="relative mb-16">
         <div className="absolute inset-0 overflow-hidden h-64">
           <img
-            src="/api/placeholder/1920/400"
+            src="https://i.ibb.co.com/MkFf0KnM/download.jpg"
             alt="Bangladesh landscape"
             className="w-full h-full object-cover"
           />
