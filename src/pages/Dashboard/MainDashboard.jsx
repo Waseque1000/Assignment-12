@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   Bell,
   Search,
@@ -13,8 +13,12 @@ import {
   Star,
   DollarSign,
 } from "lucide-react";
+import { AuthContext } from "../../providers/AuthProvider";
 
 export default function TourManagementDashboard() {
+  //
+  const { user } = useContext(AuthContext);
+  console.log(user);
   // Sample data for stats
   const stats = [
     { title: "Total Bookings", value: "1,245", change: "+18.2%", up: true },
@@ -86,25 +90,12 @@ export default function TourManagementDashboard() {
       {/* Top Header */}
       <header className="bg-white shadow-sm px-6 py-4 flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          <div className="flex items-center text-blue-600">
-            <Plane className="h-6 w-6" />
-            <h1 className="text-xl font-bold ml-2">TourMaster</h1>
-          </div>
-          <span className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
-            Admin Portal
-          </span>
+          <h2 className="text-3xl font-bold italic">
+            Admin <span className="text-red-500">Dashboard</span>
+          </h2>
         </div>
 
         <div className="flex items-center space-x-4">
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search tours, guides..."
-              className="pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            />
-            <Search className="absolute left-3 top-2.5 text-gray-400 h-5 w-5" />
-          </div>
-
           <button className="relative p-2 text-gray-500 hover:bg-gray-100 rounded-full">
             <Bell />
             <span className="absolute top-0 right-0 h-4 w-4 bg-red-500 rounded-full border-2 border-white"></span>
@@ -112,33 +103,19 @@ export default function TourManagementDashboard() {
 
           <div className="flex items-center space-x-3">
             <img
-              src="/api/placeholder/40/40"
+              src={user.photoURL}
               alt="User avatar"
               className="h-10 w-10 rounded-full object-cover"
             />
             <div className="hidden md:block">
-              <p className="text-sm font-medium text-gray-800">Tour Manager</p>
-              <p className="text-xs text-gray-500">manager@tourmaster.com</p>
+              <p className="text-sm font-medium text-gray-800">
+                {user.displayName}
+              </p>
+              <p className="text-xs text-gray-500">{user.email}</p>
             </div>
           </div>
         </div>
       </header>
-
-      {/* Navigation Tabs */}
-      <div className="bg-white px-6 py-2 shadow-sm">
-        <nav className="flex space-x-6">
-          <NavTab
-            icon={<TrendingUp size={18} />}
-            text="Dashboard"
-            active={true}
-          />
-          <NavTab icon={<Map size={18} />} text="Tours" />
-          <NavTab icon={<Users size={18} />} text="Customers" />
-          <NavTab icon={<Calendar size={18} />} text="Bookings" />
-          <NavTab icon={<Camera size={18} />} text="Destinations" />
-          <NavTab icon={<Star size={18} />} text="Reviews" />
-        </nav>
-      </div>
 
       {/* Dashboard Content */}
       <main className="flex-1 overflow-x-hidden overflow-y-auto p-6">

@@ -28,7 +28,7 @@ const Sidebar = () => {
   return (
     <>
       {/* Small Screen Navbar */}
-      <div className="bg-gray-100 text-gray-800 flex justify-between items-center md:hidden px-4 py-2">
+      <div className=" flex justify-between items-center md:hidden px-4 py-2">
         <Logo />
         <button
           onClick={handleToggle}
