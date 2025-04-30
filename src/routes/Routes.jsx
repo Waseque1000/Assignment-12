@@ -21,6 +21,7 @@ import ManageProfile from "../components/Dashboard/ManageProfile";
 import Error from "../components/Shared/Error";
 import CommunityPage from "../components/Shared/Navbar/CommunityPage";
 import AssignedTours from "../pages/Dashboard/AssignedTours";
+import AdminDashboard from "../pages/Dashboard/MainDashboard";
 
 export const router = createBrowserRouter([
   {
@@ -76,7 +77,7 @@ export const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
-      { path: "/dashboard/", element: <MyBookings></MyBookings> },
+      { path: "/dashboard/", element: <AdminDashboard></AdminDashboard> },
       { path: "/dashboard/my-bookings", element: <MyBookings></MyBookings> },
       { path: "/dashboard/profile", element: <ProfileCard /> },
       { path: "/dashboard/add-story", element: <AddStory /> },
